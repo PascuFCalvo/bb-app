@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import FormRegister from './components/formRegister/formRegister'
+import Menu from "./pages/menu/Menu"
+import Body from "./pages/body/Body"
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
     <>
       <div>
-        HOLA DESDE REACT
-        <FormRegister />
+
+        <Body />
       </div>
     </>
   )
