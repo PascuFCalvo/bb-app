@@ -91,4 +91,32 @@ router.delete('/users/:user_id', async (req, res) => {
     });
 });
 
+//login de un usuario
+
+router.post('/users/login', async (req, res) => {
+    const dataUser = req.body;
+    console.log("data", dataUser);
+    const user = await User.findOne({
+        where: {
+            email: dataUser.email,
+            password: dataUser.password
+
+        }
+    });
+    if (user) {
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            message: "Usuario logueado correctamente"
+        });
+    } else {
+        res.status(401).json({
+            ok: false,
+            status: 401,
+            message: "Usuario o contraseña incorrectos"
+        });
+    }
+}
+);
+
 export default router;

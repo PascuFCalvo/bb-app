@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
+import { loginUser } from '../../services/API calls/apiCalls';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        let dataUser = {
+            email: email,
+            password: password
+        };
         event.preventDefault();
-        console.log('Email:', email);
-        console.log('Password:', password);
+        let response = await loginUser(dataUser);
+        console.log(response);
+
+        if (response.ok === true) {
+            alert(response.message);
+            navigate("/mainView");
+
+        } else {
+            alert(response.message);
+        }
     };
 
     return (
