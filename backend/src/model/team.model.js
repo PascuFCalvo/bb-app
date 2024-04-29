@@ -6,14 +6,20 @@ class Team extends Model { }
 
 Team.init(
     {
-        id: {
+        teamid: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        teamowner: {
-            type: DataTypes.STRING,
-            allowNull: false
+
+        userid: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+                model: 'users',
+                key: 'userid'
+            }
+
         },
 
         teamname: {
@@ -36,6 +42,7 @@ Team.init(
     }
 );
 
-console.log(Team === sequelize.models.user);
+
+console.log(Team === sequelize.models.team);
 
 export default Team;

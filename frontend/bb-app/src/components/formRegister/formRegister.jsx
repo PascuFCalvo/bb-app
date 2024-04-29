@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './formRegister.css';
 import { registerUser } from '../../services/API calls/apiCalls';
+import { Navigate } from 'react-router-dom';
 
 function FormRegister() {
     const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ function FormRegister() {
         e.preventDefault();
         console.log(formData);
         registerUser(formData)
+        Navigate('/login');
     };
 
 

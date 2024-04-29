@@ -29,16 +29,6 @@ function FormCreateTeam() {
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Entrenador:
-                <input
-                    type="text"
-                    name="teamowner"
-                    value={formData.teamowner}
-                    onChange={handleChange}
-                />
-            </label>
-            <br />
-            <label>
                 Nombre del equipo:
                 <input
                     type="text"

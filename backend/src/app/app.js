@@ -1,6 +1,9 @@
 import express from 'express';
 import userRouter from '../router/user.router.js';
 import teamRouter from '../router/team.router.js';
+import createAssociations from '../../asociations.js';
+
+createAssociations();
 
 import cors from 'cors';
 

@@ -2,39 +2,29 @@ import { Model } from "sequelize";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database.js";
 
-class User extends Model { }
+class Player extends Model { }
 
-User.init(
+Player.init(
     {
-        userid: {
+        playerid: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        username: {
+
+        playername: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
+
     },
     {
         sequelize,
-        modelName: "user"
+        modelName: "player"
     }
 );
 
 
+console.log(Player === sequelize.models.user);
 
-console.log(User === sequelize.models.user);
-
-export default User;
-
-
-
+export default Player;

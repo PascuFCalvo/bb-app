@@ -8,9 +8,8 @@ router.post('/', async (req, res) => {
     try {
         const dataTeams = req.body;
         console.log(dataTeams);
-        await Team.sync();
         await Team.create({
-            teamowner: dataTeams.teamowner,
+            userid: dataTeams.userid,
             teamname: dataTeams.teamname,
             teamrace: dataTeams.teamrace,
             teamvalue: dataTeams.teamvalue
