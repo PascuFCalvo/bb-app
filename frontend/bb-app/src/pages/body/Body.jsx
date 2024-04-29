@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import FormRegister from "../../components/formRegister/FormRegister";
+import FormRegister from "../../components/formRegister/formRegister.jsx";
 import Menu from "../menu/Menu";
-import LoginForm from "../../components/formLogin/FormLogin";
+import LoginForm from "../../components/formLogin/FormLogin.jsx";
 import MainView from "../mainView/mainView";
 
 const body = () => {

@@ -2,39 +2,40 @@ import { Model } from "sequelize";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database.js";
 
-class User extends Model { }
+class Team extends Model { }
 
-User.init(
+Team.init(
     {
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        username: {
+        teamowner: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        email: {
+
+        teamname: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        password: {
+        teamrace: {
             type: DataTypes.STRING,
             allowNull: false
-        }
+        },
+        teamvalue: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
     },
     {
         sequelize,
-        modelName: "user"
+        modelName: "team"
     }
 );
 
+console.log(Team === sequelize.models.user);
 
-
-console.log(User === sequelize.models.user);
-
-export default User;
-
-
-
+export default Team;

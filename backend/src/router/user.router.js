@@ -1,10 +1,10 @@
 import express from 'express';
-import User from '../../model/user.model.js';
+import User from '../model/user.model.js';
 
 const router = express.Router();
 
 //traer todos los usuarios
-router.get('/users', async (req, res) => {
+router.get('/', async (req, res) => {
     const users = await User.findAll();
     res.status(200).json({
         ok: true,
@@ -27,7 +27,7 @@ router.get('/users/:user_id', async (req, res) => {
 });
 
 //crear un usuario
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const dataUsers = req.body;
         console.log(dataUsers);
@@ -56,7 +56,7 @@ router.post('/users', async (req, res) => {
 
 
 //actualizar un usuario
-router.put('/users/:user_id', async (req, res) => {
+router.put('/:user_id', async (req, res) => {
     const userId = req.params.user_id;
     const user = req.body;
     const userToUpdate = await User.update({
@@ -77,7 +77,7 @@ router.put('/users/:user_id', async (req, res) => {
 });
 
 //eliminar un usuario
-router.delete('/users/:user_id', async (req, res) => {
+router.delete('/:user_id', async (req, res) => {
     const userId = req.params.user_id;
     const user = await User.destroy({
         where: {
@@ -93,7 +93,7 @@ router.delete('/users/:user_id', async (req, res) => {
 
 //login de un usuario
 
-router.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
     const dataUser = req.body;
     console.log("data", dataUser);
     const user = await User.findOne({
