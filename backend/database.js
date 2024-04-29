@@ -1,16 +1,16 @@
 import { Sequelize } from "sequelize";
 
 
-const sequelize = new Sequelize("bb", "root", "karanas3689", {
-    host: "localhost",
-    dialect: "mysql",
-    port: 3306
+const sequelize = new Sequelize("railway", "root", "IXAwjlCbHCkryULQzETRTaVZXduHudNo", {
+  host: "roundhouse.proxy.rlwy.net",
+  dialect: "mysql",
+  port: 39435
 });
 
 sequelize.authenticate()
   .then(() => {
     console.log('Conexión establecida exitosamente.');
-    sequelize.sync({ force: true })
+    sequelize.sync({ force: false })
       .then(() => {
         console.log('La base de datos y los modelos están sincronizados y las tablas fueron recreadas.');
       });
