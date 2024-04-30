@@ -1,6 +1,7 @@
 import express from 'express';
 import userRouter from '../router/user.router.js';
 import teamRouter from '../router/team.router.js';
+import adminRouter from '../router/admin.router.js';
 import createAssociations from '../../asociations.js';
 
 createAssociations();
@@ -20,5 +21,6 @@ app.use(express.json());
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/teams', teamRouter);
+app.use('/api/v1/admin', adminRouter);
 
 export default app;
