@@ -14,10 +14,10 @@ sequelize.authenticate()
 
     //descomentar para rehacer cada save la BBDD
 
-    // sequelize.sync({ force: false })
-    //   .then(() => {
-    //     console.log('La base de datos y los modelos están sincronizados y las tablas fueron recreadas.');
-    //   });
+     sequelize.sync({ force: false })
+      .then(() => {
+        console.log('La base de datos y los modelos están sincronizados y las tablas fueron recreadas.');
+       });
   })
   .catch(error => {
     console.error('No se pudo conectar a la base de datos:', error);

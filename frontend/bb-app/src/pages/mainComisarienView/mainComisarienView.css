@@ -1,0 +1,48 @@
+.mainComisarienView {
+    background-image: url(../../assets/images/bb-main-menu.jpg);
+    background-size: cover;
+    font-family: BloodBowl;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100vw;
+    height: 100vh;
+}
+
+.buttonEntrenador {
+    font-family: BloodBowl;
+    background-color: #B71418;
+    color: white;
+    border: solid 1px white;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 30px;
+    margin: 10px;
+}
+
+.buttonEntrenador:hover {
+    background-color: #830f11;
+    transform: scale(1.05);
+}
+
+input:focus,
+.buttonEntrenador:focus {
+    outline: none;
+    border-color: #B71418;
+    box-shadow: 0 0 3px #B71418;
+}
+
+@media screen and (max-width: 600px) {
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .buttonEntrenador {
+        font-size: 20px;
+    }
+
+}

@@ -12,15 +12,19 @@ function LoginForm() {
     const handleSubmit = async (event) => {
         let dataUser = {
             email: email,
-            password: password
+            password: password,
         };
         event.preventDefault();
         let response = await loginUser(dataUser);
         console.log(response);
-
         if (response.ok === true) {
-            alert(response.message);
-            navigate("/mainCoachView");
+            if (response.user.role === "admin") {
+                navigate("/mainComisarienView");
+            }
+            else {
+                navigate("/mainCoachView");
+            }
+           
 
         } else {
             alert(response.message);

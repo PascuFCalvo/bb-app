@@ -54,7 +54,8 @@ router.post('/', async (req, res) => {
         await User.create({
             username: dataUsers.username,
             email: dataUsers.email,
-            password: dataUsers.password
+            password: dataUsers.password,
+            role: dataUsers.role
         });
         res.status(201).json({
             ok: true,
@@ -126,7 +127,12 @@ router.post('/login', async (req, res) => {
         res.status(200).json({
             ok: true,
             status: 200,
-            message: "Usuario logueado correctamente"
+            message: "Usuario logueado correctamente",
+            user: {
+                username: user.username,
+                email: user.email,
+                role: user.role
+            }
         });
     } else {
         res.status(401).json({
