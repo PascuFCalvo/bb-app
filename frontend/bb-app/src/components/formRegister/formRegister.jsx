@@ -10,7 +10,8 @@ function FormRegister() {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
-        password: ''
+        password: '',
+        role: 'user'
     });
 
     const handleChange = (e) => {

@@ -18,6 +18,49 @@
     height: 70%;
     background-color: #e7e3da;
     display: flex;
+    flex-direction: column;
+}
+
+
+
+.playersTable {
+    width: 100%; /* Table width is 100% of its container */
+    border-collapse: collapse; /* Collapses borders into a single border */
+    table-layout: fixed; /* Helps in managing column width */
+}
+
+.playersTable th, .playersTable td {
+    text-align: left; /* Aligns text to the left */
+    padding: 12px; /* Adds padding to cells */
+    border-bottom: 1px solid #ddd; /* Adds a light line between rows */
+}
+
+.playersTable th {
+    background-color: #f4f4f4; /* Light grey background for headers */
+    font-weight: bold; /* Makes header text bold */
+}
+
+.playersTable tr:hover {
+    background-color: #f1f1f1; /* Adds hover effect for table rows */
+}
+
+.playerDetails {
+    display: flex;        /* Aligns children (divs) in a row */
+    justify-content: space-around; /* Distributes space around items */
+    align-items: center;  /* Vertically align items in the middle */
+    flex-wrap: wrap;      /* Allows items to wrap onto the next line if not enough space */
+    padding: 10px;        /* Adds some padding around each item */
+    gap: 10px;            /* Adds space between items */
+}
+
+.playerCard {
+    flex-grow: 1;         /* Allows each card to grow and fill the space */
+    text-align: center;   /* Center-aligns the text within each player card */
+}
+
+.teamCardHeader {
+    display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
 
 }

@@ -16,7 +16,7 @@ function LoginForm() {
         };
         event.preventDefault();
         let response = await loginUser(dataUser);
-        console.log(response);
+        console.log("respuesta", response);
         if (response.ok === true) {
             localStorage.setItem("user", JSON.stringify(response.user));
             if (response.user.role === "admin") {
