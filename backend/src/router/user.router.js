@@ -30,8 +30,27 @@ router.get('/users/:user_id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const dataUsers = req.body;
-        console.log(dataUsers);
+
         await User.sync();
+
+        //comprobar que no exista un usuario con ese mail
+
+        const userComprobacion = await User.findOne({
+            where: {
+                email: dataUsers.email
+            }
+        });
+
+        if (userComprobacion) {
+            res.status(400).json({
+                ok: false,
+                status: 400,
+                message: "El email ya está en uso"
+            });
+            alert("El email ya está en uso");
+            return;
+        }
+
         await User.create({
             username: dataUsers.username,
             email: dataUsers.email,

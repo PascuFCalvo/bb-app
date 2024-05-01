@@ -3,6 +3,7 @@ import userRouter from '../router/user.router.js';
 import teamRouter from '../router/team.router.js';
 import adminRouter from '../router/admin.router.js';
 import createAssociations from '../../asociations.js';
+import entrenadorRouter from '../router/entrenador.router.js';
 
 createAssociations();
 
@@ -22,5 +23,6 @@ app.use(express.json());
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/teams', teamRouter);
 app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/entrenador', entrenadorRouter);
 
 export default app;

@@ -10,10 +10,14 @@ const sequelize = new Sequelize("bb", "root", "karanas3689", {
 sequelize.authenticate()
   .then(() => {
     console.log('Conexión establecida exitosamente.');
-    sequelize.sync({ force: false })
-      .then(() => {
-        console.log('La base de datos y los modelos están sincronizados y las tablas fueron recreadas.');
-      });
+
+
+    //descomentar para rehacer cada save la BBDD
+
+    // sequelize.sync({ force: false })
+    //   .then(() => {
+    //     console.log('La base de datos y los modelos están sincronizados y las tablas fueron recreadas.');
+    //   });
   })
   .catch(error => {
     console.error('No se pudo conectar a la base de datos:', error);

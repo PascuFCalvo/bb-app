@@ -1,9 +1,12 @@
 import express from 'express';
 import Starplayer from '../model/starplayers.model.js';
 import Posicional from '../model/posicionales.model.js';
+import Habilidad from '../model/habilidades.model.js';
 
 const router = express.Router();
 
+
+//añadir un starplayer
 
 router.post('/starplayers', async (req, res) => {
     try {
@@ -11,7 +14,6 @@ router.post('/starplayers', async (req, res) => {
         console.log(dataStarplayer);
         await Starplayer.create({
             starplayername: dataStarplayer.starplayername,
-            teamid: dataStarplayer.teamid
         });
         res.status(201).json({
             ok: true,
@@ -28,6 +30,8 @@ router.post('/starplayers', async (req, res) => {
         });
     }
 });
+
+//añadir un posicional
 
 router.post('/posicionales', async (req, res) => {
     try {
@@ -60,6 +64,32 @@ router.post('/posicionales', async (req, res) => {
             ok: false,
             status: 500,
             message: "Error al agregar el posicional",
+            details: error.message
+        });
+    }
+});
+
+// añadir una habilidad
+
+router.post('/habilidades', async (req, res) => {
+    try {
+        const dataHabilidad = req.body;
+
+        await Habilidad.create({
+            habilidadname: dataHabilidad.habilidadname,
+            habilidadtipo: dataHabilidad.habilidadtipo,
+        });
+        res.status(201).json({
+            ok: true,
+            status: 201,
+            message: "habilidad agregada correctamente",
+        });
+    } catch (error) {
+        console.error('Error al agregar la habilidad:', error);
+        res.status(500).json({
+            ok: false,
+            status: 500,
+            message: "Error al agregar la habilidad",
             details: error.message
         });
     }

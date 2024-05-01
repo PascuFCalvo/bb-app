@@ -2,17 +2,23 @@ import { INTEGER, Model } from "sequelize";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database.js";
 
-class Starplayer extends Model { }
+class Habilidad extends Model { }
 
-Starplayer.init(
+Habilidad.init(
     {
-        starplayerid: {
+        habilidadid: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
 
-        starplayername: {
+        
+        habilidadname: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+
+        habilidadtipo: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -22,11 +28,11 @@ Starplayer.init(
     },
     {
         sequelize,
-        modelName: "starplayer"
+        modelName: "habilidad"
     }
 );
 
 
-console.log(Starplayer === sequelize.models.starplayer);
 
-export default Starplayer;
+
+export default Habilidad;

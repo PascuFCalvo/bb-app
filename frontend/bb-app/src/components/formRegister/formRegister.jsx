@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import './formRegister.css';
 import { registerUser } from '../../services/API calls/apiCalls';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function FormRegister() {
+
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -18,14 +21,24 @@ function FormRegister() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
-        registerUser(formData)
-        Navigate('/login');
+        try {
+            const response = await registerUser(formData);
+            console.log(response);
+
+            // Redirigir al login si el usuario se ha creado correctamente
+            if (response.ok === true) {
+                navigate('/login');
+            } else {
+                alert('Error al registrar el usuario, el email ya esta en uso:');
+            }
+        } catch (error) {
+            alert('Error al registrar el usuario:', error);
+            // Manejar errores aquí, por ejemplo, mostrar un mensaje al usuario
+        }
     };
-
-
 
     return (
         <form onSubmit={handleSubmit}>
