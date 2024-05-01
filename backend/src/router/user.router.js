@@ -129,6 +129,7 @@ router.post('/login', async (req, res) => {
             status: 200,
             message: "Usuario logueado correctamente",
             user: {
+                userid: user.userid,
                 username: user.username,
                 email: user.email,
                 role: user.role

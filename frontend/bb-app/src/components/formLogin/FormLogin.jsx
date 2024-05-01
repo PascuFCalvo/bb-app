@@ -18,13 +18,14 @@ function LoginForm() {
         let response = await loginUser(dataUser);
         console.log(response);
         if (response.ok === true) {
+            localStorage.setItem("user", JSON.stringify(response.user));
             if (response.user.role === "admin") {
                 navigate("/mainComisarienView");
             }
             else {
                 navigate("/mainCoachView");
             }
-           
+
 
         } else {
             alert(response.message);
