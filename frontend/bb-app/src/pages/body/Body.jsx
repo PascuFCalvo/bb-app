@@ -1,9 +1,10 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import FormRegister from "../../components/formRegister/formRegister.jsx";
 import Menu from "../menu/Menu";
 import LoginForm from "../../components/formLogin/FormLogin.jsx";
 import MainCoachView from "../mainCoachView/mainCoachView";
 import MainComisarienView from "../mainComisarienView/mainComisarienView";
+import CoachTeamView from "../coachTeamView/coachTeamView";
 
 const body = () => {
     return (
@@ -13,6 +14,9 @@ const body = () => {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/mainCoachView" element={<MainCoachView />} />
             <Route path="/mainComisarienView" element={<MainComisarienView />} />
+            <Route path="/coachTeamView" element={<CoachTeamView />} />
+
+
 
 
         </Routes>

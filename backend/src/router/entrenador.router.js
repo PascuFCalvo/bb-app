@@ -2,6 +2,7 @@ import express from 'express';
 import Team from '../model/team.model.js';
 import Player from '../model/player.model.js';
 import Starplayer from '../model/starplayers.model.js';
+import User from '../model/user.model.js';
 
 
 const router = express.Router();
@@ -17,24 +18,32 @@ router.get('/equipos', async (req, res) => {
     });
 });
 
-//ver un equipo por id
+//ver un equipo por id de usuario
 
-router.get('/equipos/:id', async (req, res) => {
-    const id = req.params.id;
-    const equipo = await Team.findByPk(id);
-    if (equipo) {
+router.get('/equipos/:userid', async (req, res) => {
+    const userid = req.params.userid;
+    const user = await User.findByPk(userid);
+    if (user) {
+        console.log(user);
+        let userTeam = await Team.findOne({
+            where: {
+                userId: userid
+            }
+        });
         res.status(200).json({
             ok: true,
             status: 200,
-            body: equipo
+            body: userTeam
         });
-    } else {
+    }
+    else {
         res.status(404).json({
             ok: false,
             status: 404,
-            message: "Equipo no encontrado"
+            message: "equipo no encontrado"
         });
     }
+
 });
 
 //ver todos los jugadores

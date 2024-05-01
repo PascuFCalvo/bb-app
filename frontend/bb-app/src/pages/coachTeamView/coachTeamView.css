@@ -1,0 +1,39 @@
+.bodyTeamPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+
+}
+
+.teamCard {
+    font-family: BloodBowl;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 90%;
+    height: 70%;
+    background-color: #e7e3da;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+.buttonBack {
+    font-family: BloodBowl;
+    background-color: #B71418;
+    color: white;
+    border: solid 1px white;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.buttonBack:hover {
+    background-color: #830f11;
+    transform: scale(1.05);
+}

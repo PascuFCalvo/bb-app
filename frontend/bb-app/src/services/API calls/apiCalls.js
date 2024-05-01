@@ -43,3 +43,14 @@ export const loginUser = async (data) => {
         });
 }
 
+export const getTeamByUserId = async (userId) => {
+    return fetch(`http://localhost:3000/api/v1/entrenador/equipos/${userId}`)
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Error al obtener el equipo:', error);
+        });
+}
+

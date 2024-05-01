@@ -1,31 +1,46 @@
 import React, { useState } from 'react';
 import './mainCoachView.css';
-import { useNavigate } from 'react-router-dom';
 import FormCreateTeam from '../../components/formCreateTeam/formCreateTeam';
+import { useNavigate } from 'react-router-dom';
 
 function MainCoachView() {
+    const [showForm, setShowForm] = useState(false);
 
-    let userDataSeason = JSON.parse(localStorage.getItem("user"));
+    const navigate = useNavigate();
 
+    const toggleForm = () => {
+        setShowForm(current => {
+            if (current) {
 
-    const [showCreateTeam, setShowCreateTeam] = useState(false);
+                showButtons();
+            } else {
 
+                hideButtons();
+            }
+            return !current;
+        });
+    };
 
-    const handleCreateTeam = () => {
-        setShowCreateTeam(!showCreateTeam);
-        console.log("crear equipo");
+    const hideButtons = () => {
+        document.getElementById("entrenadorButtons").style.display = "none";
+    };
+
+    const showButtons = () => {
+        document.getElementById("entrenadorButtons").style.display = "flex";
+    };
+
+    const goToTeamView = () => {
+        navigate('/CoachTeamView'); // Use a route string here
     };
 
     return (
         <div className="mainCoachView">
             <h1>panel de entrenador</h1>
-            <div className="entrenadorButtons">
-                <button className="buttonEntrenador" onClick={handleCreateTeam}>crear equipo</button>
-                <button className="buttonEntrenador">ver mi equipo</button>
-                {
-                    showCreateTeam && <FormCreateTeam />
-                }
+            <div id="entrenadorButtons" className="entrenadorButtons">
+                <button className="buttonEntrenador" onClick={goToTeamView}>ver mi equipo</button>
+                <button className="buttonEntrenador" onClick={toggleForm}>crear equipo</button>
             </div>
+            {showForm && <FormCreateTeam closeForm={toggleForm} />}
         </div>
     );
 }

@@ -9,6 +9,7 @@ body {
 }
 
 .formCreateTeam {
+    position: relative;
     background-color: #E8DDC7;
     padding: 20px;
     border-radius: 8px;
@@ -49,6 +50,19 @@ input {
 .buttonSubmit:hover {
     background-color: #830f11;
     transform: scale(1.05);
+}
+
+.closeForm {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    background-color: #B71418;
+    color: white;
+    border: solid 1px white;
+    padding: 5px 10px;
+    border-radius: 2px;
+
 }
 
 input:focus,

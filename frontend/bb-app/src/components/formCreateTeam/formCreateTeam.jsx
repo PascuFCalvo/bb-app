@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import './formCreateTeam.css';
 import { createTeam } from '../../services/API calls/apiCalls';
 
-function FormCreateTeam() {
-    // Correcta declaración de la variable y uso de 'const' para obtener datos del localStorage
-    const userDataSeason = JSON.parse(localStorage.getItem("user")) || {};  // Agrega un objeto vacío como fallback
-
+function FormCreateTeam({ closeForm }) {
+    const userDataSeason = JSON.parse(localStorage.getItem("user")) || {};
     const [formData, setFormData] = useState({
-        userid: userDataSeason.userid || '',  // Usa '|| '' ' como fallback para evitar undefined
+        userid: userDataSeason.userid || '',
         teamname: '',
         teamrace: '',
         teamvalue: 1000000,
@@ -54,30 +52,20 @@ function FormCreateTeam() {
 
     return (
         <form className="formCreateTeam" onSubmit={handleSubmit}>
-            <label>
-                Nombre del equipo:
-                <input
-                    type="text"
-                    name="teamname"
-                    value={formData.teamname}
-                    onChange={handleChange}
-                />
+            <label>Nombre del equipo:
+                <input type="text" name="teamname" value={formData.teamname} onChange={handleChange} />
             </label>
             <br />
-            <label>
-                Raza:
-                <select
-                    name="teamrace"
-                    value={formData.teamrace}
-                    onChange={handleChange}
-                >
+            <label>Raza:
+                <select name="teamrace" value={formData.teamrace} onChange={handleChange}>
                     {Object.entries(teamlist).map(([key, value]) => (
                         <option key={key} value={value}>{value}</option>
                     ))}
                 </select>
             </label>
             <br />
-            <button className="buttonSubmit" type="submit">Registrar</button>
+            <button className="buttonSubmit" type="submit">registrar</button>
+            <button type="button" className='closeForm' onClick={closeForm}>X</button>
         </form>
     );
 }
