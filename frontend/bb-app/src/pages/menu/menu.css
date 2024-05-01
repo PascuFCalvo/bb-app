@@ -1,38 +1,74 @@
-/* Estilos generales del contenedor y título */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+@font-face {
+    font-family: BloodBowl;
+    font-weight: bold;
+    src: url(../../assets/fonts/Gutcruncher.otf) format('opentype');
+}
+
+
+body,
+.menuScreen1 {
+
+    background-image: url(../../assets/images/bb-main-menu.jpg);
+    background-size: cover;
+    font-family: BloodBowl;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: auto;
+    width: 100vw;
     height: 100vh;
-    margin: 0;
 }
 
 h1 {
-    color: #4a54f1;
+    font-family: BloodBowl;
+    color: #B71418;
     text-align: center;
     margin-bottom: 20px;
+    font-size: 100px;
+
+    -webkit-text-stroke: white 2px;
+    text-shadow: 10px 10px 10px black;
 }
 
-button {
-    background-color: #4a54f1;
+.menuButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonMenu {
+    font-family: BloodBowl;
+
+    background-color: #B71418;
     color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px;
+    border: solid 1px white;
+    box-shadow: 10px 10px 10px black;
+    padding: 10px 40px;
+    margin-bottom: 10px;
+    margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.2s;
+    font-size: 30px;
 }
 
-button:hover {
-    background-color: #6a74fb;
+.buttonMenu:hover {
+    background-color: #830f11;
     transform: scale(1.05);
 }
 
 button:active {
     transform: scale(0.95);
+}
+
+@media screen and (max-width: 600px)
+{
+    h1 {
+        font-size: 50px;
+    }
+    .buttonMenu {
+        font-size: 20px;
+    }
+    
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { loginUser } from '../../services/API calls/apiCalls';
 import { useNavigate } from 'react-router-dom';
+import './formLogin.css';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ function LoginForm() {
 
         if (response.ok === true) {
             alert(response.message);
-            navigate("/mainView");
+            navigate("/mainCoachView");
 
         } else {
             alert(response.message);
@@ -27,7 +28,7 @@ function LoginForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="formLogin" onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="email">Email:</label>
                 <input
@@ -48,7 +49,7 @@ function LoginForm() {
                     required
                 />
             </div>
-            <button type="submit">Login</button>
+            <button className="buttonSubmit" type="submit">Login</button>
         </form>
     );
 }

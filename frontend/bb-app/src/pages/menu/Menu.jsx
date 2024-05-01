@@ -7,11 +7,12 @@ function Menu() {
     const navigate = useNavigate();
 
     return (
-        <div>
-            <h1>BB APP</h1>
-            <div>
-                <button onClick={() => navigate("/register")}>Registro de Usuario</button>
-                <button onClick={() => navigate('/login')}>Login de Usuario</button>
+        <div className="menuScreen1">
+            <h1>PetreobowL</h1>
+            <h2></h2>
+            <div className = "menuButtons">
+                <button className='buttonMenu' onClick={() => navigate("/register")}>registrar entrenador</button>
+                <button className='buttonMenu' onClick={() => navigate('/login')}>login</button>
             </div>
         </div>
     );

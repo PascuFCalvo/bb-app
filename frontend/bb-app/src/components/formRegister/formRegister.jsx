@@ -27,7 +27,6 @@ function FormRegister() {
         try {
             const response = await registerUser(formData);
             console.log(response);
-
             // Redirigir al login si el usuario se ha creado correctamente
             if (response.ok === true) {
                 navigate('/login');
@@ -35,13 +34,12 @@ function FormRegister() {
                 alert('Error al registrar el usuario, el email ya esta en uso:');
             }
         } catch (error) {
-            alert('Error al registrar el usuario:', error);
-            // Manejar errores aquí, por ejemplo, mostrar un mensaje al usuario
+            console.error('Error al registrar el usuario:', error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="formRegister" onSubmit={handleSubmit}>
             <label>
                 Nombre:
                 <input
@@ -72,7 +70,7 @@ function FormRegister() {
                 />
             </label>
             <br />
-            <button type="submit">Registrar</button>
+            <button className='buttonSubmit' type="submit">registrar</button>
         </form>
     );
 }

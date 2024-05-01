@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import FormRegister from "../../components/formRegister/formRegister.jsx";
 import Menu from "../menu/Menu";
 import LoginForm from "../../components/formLogin/FormLogin.jsx";
-import MainView from "../mainView/mainView";
+import MainCoachView from "../mainCoachView/mainCoachView";
 
 const body = () => {
     return (
@@ -10,7 +10,7 @@ const body = () => {
             <Route path="/" element={<Menu />} />
             <Route path="/register" element={<FormRegister />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/mainView" element={<MainView />} />
+            <Route path="/mainCoachView" element={<MainCoachView />} />
         </Routes>
     );
 }
