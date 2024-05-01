@@ -6,7 +6,6 @@ import StarplayerTeam from './src/model/starplayer_team.model.js';
 import Posicional from './src/model/posicionales.model.js';
 import PosicionalTeam from './src/model/posicional_team.model.js';
 import HabilidadPlayer from './src/model/habilidad_player.model.js';
-import Habilidad from './src/model/habilidades.model.js';
 
 const createAssociations = () => {
 

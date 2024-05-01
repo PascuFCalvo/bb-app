@@ -1,4 +1,4 @@
-import {  Model } from "sequelize";
+import { Model } from "sequelize";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database.js";
 
@@ -7,9 +7,10 @@ class Posicional extends Model { }
 Posicional.init(
     {
         posicionalid: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true
+
         },
 
         posicionalteam: {
@@ -19,7 +20,8 @@ Posicional.init(
 
         posicionalname: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            
         },
 
         posicionalmin: {

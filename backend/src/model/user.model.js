@@ -7,8 +7,8 @@ class User extends Model { }
 User.init(
     {
         userid: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
         username: {

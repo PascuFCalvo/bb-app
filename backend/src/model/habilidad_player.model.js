@@ -1,4 +1,4 @@
-import { INTEGER, Model } from "sequelize";
+import {  Model } from "sequelize";
 import { DataTypes } from "sequelize";
 import sequelize from "../../database.js";
 
@@ -9,7 +9,7 @@ HabilidadPlayer.init(
 
         habilidadid: {
             type: DataTypes.INTEGER,
-            allowNull: null,
+            allowNull: false,
             references: {
                 model: 'habilidads',
                 key: 'habilidadid'
@@ -17,8 +17,8 @@ HabilidadPlayer.init(
         },
 
         playerid: {
-            type: DataTypes.UUID,
-            allowNull: null,
+            type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: 'players',
                 key: 'playerid'

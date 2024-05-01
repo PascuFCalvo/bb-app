@@ -7,8 +7,8 @@ class Player extends Model { }
 Player.init(
     {
         playerid: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true
         },
 
@@ -18,8 +18,7 @@ Player.init(
         },
 
         posicionalid: {
-            type: DataTypes.UUID,
-            allowNull: false,
+            type: DataTypes.STRING,
             references: {
                 model: 'posicionals',
                 key: 'posicionalid'
@@ -28,7 +27,7 @@ Player.init(
 
         habilidadSubida1: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: 'habilidads',
                 key: 'habilidadid'
@@ -37,7 +36,7 @@ Player.init(
 
         habilidadSubida2: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: 'habilidads',
                 key: 'habilidadid'
@@ -46,7 +45,7 @@ Player.init(
 
         habilidadSubida3: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
 
             references: {
                 model: 'habilidads',

@@ -7,14 +7,14 @@ class Team extends Model { }
 Team.init(
     {
         teamid: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
             primaryKey: true
         },
 
         userid: {
-            type: DataTypes.UUID,
-            allowNull: false,
+            type: DataTypes.INTEGER,
             references: {
                 model: 'users',
                 key: 'userid'
