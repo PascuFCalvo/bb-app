@@ -22,20 +22,37 @@ function CoachTeamView() {
 
     const fetchTeamAndPlayers = async (userId) => {
         try {
-            const teamResponse = await fetch(`http://localhost:3000/api/v1/entrenador/equipos/${userId}`);
-            const teamData = await teamResponse.json();
+            const teamUrl = `http://localhost:3000/api/v1/entrenador/equipos/${userId}`;
+            const teamData = await (await fetch(teamUrl)).json();
             setTeam(teamData);
 
-            if (teamData && teamData.body && teamData.body.teamid) {
-                const playersResponse = await fetch(`http://localhost:3000/api/v1/entrenador/jugadores/${teamData.body.teamid}`);
-                const playersData = await playersResponse.json();
+            if (teamData.body?.teamid) {
+                const playersUrl = `http://localhost:3000/api/v1/entrenador/jugadores/${teamData.body.teamid}`;
+                const playersData = await (await fetch(playersUrl)).json();
 
-                const playersWithDetails = await Promise.all(playersData.body.map(async (player) => {
-                    const posicionalResponse = await fetch(`http://localhost:3000/api/v1/entrenador/posicional/${player.posicionalid}`);
-                    const posicionalData = await posicionalResponse.json();
-                    return { ...player, posicional: posicionalData };
-                }));
+                const fetchDetails = async (player) => {
+                    const posicionalUrl = `http://localhost:3000/api/v1/entrenador/posicional/${player.posicionalid}`;
+                    const posicionalData = await (await fetch(posicionalUrl)).json();
 
+                    const habilidadUrls = [
+                        `http://localhost:3000/api/v1/entrenador/habilidad/${player.habilidadSubida1}`,
+                        `http://localhost:3000/api/v1/entrenador/habilidad/${player.habilidadSubida2}`,
+                        `http://localhost:3000/api/v1/entrenador/habilidad/${player.habilidadSubida3}`,
+                    ];
+                    const habilidades = await Promise.all(habilidadUrls.map(url =>
+                        fetch(url).then(res => res.ok ? res.json() : null)
+                    ));
+
+                    return {
+                        ...player,
+                        posicional: posicionalData,
+                        habilidadSubida1: habilidades[0]?.body?.habilidadname || ' - ',
+                        habilidadSubida2: habilidades[1]?.body?.habilidadname || ' - ',
+                        habilidadSubida3: habilidades[2]?.body?.habilidadname || ' - ',
+                    };
+                };
+
+                const playersWithDetails = await Promise.all(playersData.body.map(fetchDetails));
                 setPlayers(playersWithDetails);
             }
             setIsLoading(false);
@@ -46,12 +63,13 @@ function CoachTeamView() {
     };
 
     if (isLoading) {
-        return <div>Cargando</div>;
+        return <div>Cargando...</div>;
     }
 
     if (!team || !players.length) {
-        return <div>No hay equipo.</div>;
+        return <div>No hay equipo o datos de jugadores disponibles.</div>;
     }
+
 
     return (
         <>
@@ -68,30 +86,32 @@ function CoachTeamView() {
                         <table className="playersTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>DORSAL</th>
                                     <th>Nombre</th>
                                     <th>Posición</th>
                                     <th>MA</th>
                                     <th>ST</th>
                                     <th>AG</th>
                                     <th>PA</th>
+                                    <th>AR</th>
                                     <th>Valor</th>
                                     <th>Skills</th>
-                                    <th>Habilidad Subida 1</th>
-                                    <th>Habilidad Subida 2</th>
-                                    <th>Habilidad Subida 3</th>
+                                    <th>1a subida</th>
+                                    <th>2a subida</th>
+                                    <th>3a subida</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {players.map((player, index) => (
                                     <tr key={index}>
-                                        <td>{player.playerid}</td>
+                                        <td>{player.dorsal}</td>
                                         <td>{player.playername}</td>
                                         <td>{player.posicional?.body?.posicionalname}</td>
-                                        <td>{player.posicional?.body?.posicionalma }</td>
-                                        <td>{player.posicional?.body?.posicionalst }</td>
-                                        <td>{player.posicional?.body?.posicionalag }</td>
-                                        <td>{player.posicional?.body?.posicionalpa }</td>
+                                        <td>{player.posicional?.body?.posicionalma}</td>
+                                        <td>{player.posicional?.body?.posicionalst}</td>
+                                        <td>{player.posicional?.body?.posicionalag}</td>
+                                        <td>{player.posicional?.body?.posicionalpa}</td>
+                                        <td>{player.posicional?.body?.posicionalav}</td>
                                         <td>{player.posicional?.body?.posicionalcost}</td>
                                         <td>{player.posicional?.body?.posicionalskills}</td>
                                         <td>{player.habilidadSubida1}</td>
