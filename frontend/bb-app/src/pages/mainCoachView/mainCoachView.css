@@ -1,5 +1,5 @@
 .mainCoachView {
-    background-image: url(../../assets/images/bb-main-menu.jpg);
+    background-image: url(../../assets/images/Goublinho.jpg);
     background-size: cover;
     font-family: BloodBowl;
     display: flex;
@@ -8,7 +8,9 @@
     align-items: center;
     height: auto;
     width: 100%;
-    height: 100vh;
+    height: auto;
+    box-shadow: inset 0px 0px 100px 50px rgb(0, 0, 0);
+    
 }
 
 .entrenadorButtons {
