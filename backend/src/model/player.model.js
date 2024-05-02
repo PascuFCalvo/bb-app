@@ -18,7 +18,7 @@ Player.init(
         },
 
         posicionalid: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             references: {
                 model: 'posicionals',
                 key: 'posicionalid'
@@ -27,7 +27,7 @@ Player.init(
 
         habilidadSubida1: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'habilidads',
                 key: 'habilidadid'
@@ -36,7 +36,7 @@ Player.init(
 
         habilidadSubida2: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'habilidads',
                 key: 'habilidadid'
@@ -45,12 +45,17 @@ Player.init(
 
         habilidadSubida3: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
 
             references: {
                 model: 'habilidads',
                 key: 'habilidadid'
             }
+        },
+
+        dorsal: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
 
 

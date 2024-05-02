@@ -21,7 +21,7 @@ Posicional.init(
         posicionalname: {
             type: DataTypes.STRING,
             allowNull: false,
-            
+
         },
 
         posicionalmin: {

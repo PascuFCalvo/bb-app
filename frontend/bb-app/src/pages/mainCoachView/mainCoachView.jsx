@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './mainCoachView.css';
 import FormCreateTeam from '../../components/formCreateTeam/formCreateTeam';
 import { useNavigate } from 'react-router-dom';
+import LeftSideBar from '../../components/leftSideBar/leftSideBar';
 
 function MainCoachView() {
     const [showForm, setShowForm] = useState(false);
@@ -34,14 +35,18 @@ function MainCoachView() {
     };
 
     return (
-        <div className="mainCoachView">
-            <h1>panel de entrenador</h1>
-            <div id="entrenadorButtons" className="entrenadorButtons">
-                <button className="buttonEntrenador" onClick={goToTeamView}>ver mi equipo</button>
-                <button className="buttonEntrenador" onClick={toggleForm}>crear equipo</button>
+        <div className='bodyPage'>
+            <LeftSideBar />
+            <div className="mainCoachView">
+                <h1>panel de entrenador</h1>
+                <div id="entrenadorButtons" className="entrenadorButtons">
+                    <button className="buttonEntrenador" onClick={goToTeamView}>ver mi equipo</button>
+                    <button className="buttonEntrenador" onClick={toggleForm}>crear equipo</button>
+                </div>
+                {showForm && <FormCreateTeam closeForm={toggleForm} />}
             </div>
-            {showForm && <FormCreateTeam closeForm={toggleForm} />}
         </div>
+
     );
 }
 

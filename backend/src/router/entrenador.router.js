@@ -3,6 +3,8 @@ import Team from '../model/team.model.js';
 import Player from '../model/player.model.js';
 import Starplayer from '../model/starplayers.model.js';
 import User from '../model/user.model.js';
+import Posicional from '../model/posicionales.model.js';
+import Habilidad from '../model/habilidades.model.js';
 
 
 const router = express.Router();
@@ -46,16 +48,72 @@ router.get('/equipos/:userid', async (req, res) => {
 
 });
 
-//ver todos los jugadores
+//ver todos los jugadores de un equipo por id de equipo
 
-router.get('/jugadores', async (req, res) => {
-    const jugadores = await Player.findAll();
-    res.status(200).json({
-        ok: true,
-        status: 200,
-        body: jugadores
-    });
+router.get('/jugadores/:teamid', async (req, res) => {
+    const teamid = req.params.teamid;
+    const team = await Team.findByPk(teamid);
+
+    if (team) {
+        const jugadores = await Player.findAll({
+            where: {
+                teamId: teamid
+            }
+        });
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: jugadores
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "jugadores no encontrados"
+        });
+    }
 });
+
+//ver el posicional de un jugador por id de posicional
+
+router.get('/posicional/:posicionalid', async (req, res) => {
+    const posicionalid = req.params.posicionalid;
+    const posicional = await Posicional.findByPk(posicionalid);
+    if (posicional) {
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: posicional
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "Posicional no encontrado"
+        });
+    }
+});
+
+//ver el nombre de una habilidad por id de habilidad
+
+router.get('/habilidad/:habilidadid', async (req, res) => {
+    const habilidadid = req.params.habilidadid;
+    const habilidad = await Habilidad.findByPk(habilidadid);
+    if (habilidad) {
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: habilidad
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "Habilidad no encontrada"
+        });
+    }
+});
+
 
 //ver un jugador por id
 

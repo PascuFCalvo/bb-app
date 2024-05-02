@@ -8,7 +8,7 @@ PosicionalTeam.init(
     {
 
         posicionalid: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model: 'posicionals',
@@ -17,7 +17,7 @@ PosicionalTeam.init(
         },
 
         teamid: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: null,
             references: {
                 model: 'teams',
