@@ -16,7 +16,7 @@ function LeftSideBar() {
             <div className="leftSideBarMenu">
                 <ul className="leftSideBarMenuList">
                     <button className="buttonNavBar">inicio</button>
-                    <button className="buttonNavBar">equipos</button>
+                    <button className="buttonNavBar" onClick={() => navigate("/tableTeams")}>equipos</button>
                     <button className="buttonNavBar" onClick={() => navigate("/tablePlayers")}>jugadores</button>
                     <button className="buttonNavBar">partidos</button>
                     <button className="buttonNavBar">estadisticas</button>

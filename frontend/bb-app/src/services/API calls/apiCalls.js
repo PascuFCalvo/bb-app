@@ -59,6 +59,38 @@ export const getAllPlayers = async () => {
         });
 }
 
+export const getAllTeams = async () => {
+    return fetch('http://localhost:3000/api/v1/entrenador/equipos', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => response.json())  // Convierte la respuesta en JSON
+        .then(data => {
+            return data;  // Retorna los datos para ser usados en otro lugar
+        })
+        .catch(error => {
+            console.error('Error al obtener los equipos:', error);
+        });
+}
+
+export const getEntrenador = async (userid) => {
+    return fetch(`http://localhost:3000/api/v1/entrenador/entrenador/equipo/${userid}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => response.json())  // Convierte la respuesta en JSON
+        .then(data => {
+            return data;  // Retorna los datos para ser usados en otro lugar
+        })
+        .catch(error => {
+            console.error('Error al obtener el entrenador:', error);
+        });
+}
+
 
 
 

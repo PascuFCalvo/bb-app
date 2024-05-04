@@ -201,6 +201,26 @@ router.get('/jugadores/equipo/:teamid', async (req, res) => {
     }
 });
 
+// ver el nombre del entrenador de un equipo por su userid
+
+router.get('/entrenador/equipo/:userid', async (req, res) => {
+    const userid = req.params.userid;
+    const entrenador = await User.findByPk(userid);
+    if (entrenador) {
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: entrenador
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "Entrenador no encontrado"
+        });
+    }
+});
+
 
 export default router;
 

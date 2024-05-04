@@ -2,17 +2,18 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
 import { getAllPlayers } from '../../services/API calls/apiCalls';
+import "./tablePlayers.css";
 
 const columns = [
     { field: 'dorsal', headerName: 'Dorsal', width: 70 },
     { field: 'playername', headerName: 'Nombre', width: 130 },
     { field: 'posicion', headerName: 'Posición', width: 130 },
     { field: 'equipo', headerName: 'Equipo', width: 130 },
-    { field: 'ma', headerName: 'MA', type: 'number', width: 90 },
-    { field: 'st', headerName: 'ST', type: 'number', width: 90 },
-    { field: 'ag', headerName: 'AG', type: 'number', width: 90 },
-    { field: 'pa', headerName: 'PA', type: 'number', width: 90 },
-    { field: 'av', headerName: 'AV', type: 'number', width: 90 },
+    { field: 'ma', headerName: 'MA', type: 'number', width: 60 },
+    { field: 'st', headerName: 'ST', type: 'number', width: 60 },
+    { field: 'ag', headerName: 'AG', type: 'number', width: 60 },
+    { field: 'pa', headerName: 'PA', type: 'number', width: 60 },
+    { field: 'av', headerName: 'AV', type: 'number', width: 60 },
     { field: 'valor', headerName: 'Valor', type: 'number', width: 90 },
     { field: 'skills', headerName: 'Skills', width: 130 },
     { field: 'subida1', headerName: '1a Subida', width: 130 },
@@ -32,12 +33,12 @@ async function fetchAndUpdatePlayer(player) {
     try {
         const posicionalResponse = await fetch(`http://localhost:3000/api/v1/entrenador/posicional/${player.playerid}`);
         const equipoResponse = await fetch(`http://localhost:3000/api/v1/entrenador/jugadores/equipo/${player.teamid}`);
-        
+
         if (posicionalResponse.ok && equipoResponse.ok) {
             const posicionalData = await posicionalResponse.json();
             const equipoData = await equipoResponse.json();
             console.log(equipoData.body.teamname);
-            const equipo = equipoData.body.teamname ? equipoData.body.teamname : ''; 
+            const equipo = equipoData.body.teamname ? equipoData.body.teamname : '';
 
             const [subida1name, subida2name, subida3name] = await Promise.all([
                 fetchSubida(player.habilidadSubida1),
@@ -115,13 +116,12 @@ export default function DataTable() {
     }));
 
     return (
-        <div style={{ height: 'auto', width: '90vw', backgroundColor: 'bisque' }}>
+        <div style={{ height: 'auto',width:"auto", backgroundColor: 'bisque' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
                 loading={loading}
                 pageSizeOptions={[5, 10]}
-                checkboxSelection
             />
         </div>
     );
