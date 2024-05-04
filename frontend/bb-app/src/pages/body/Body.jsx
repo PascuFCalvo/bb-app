@@ -5,6 +5,7 @@ import LoginForm from "../../components/formLogin/FormLogin.jsx";
 import MainCoachView from "../mainCoachView/mainCoachView";
 import MainComisarienView from "../mainComisarienView/mainComisarienView";
 import CoachTeamView from "../coachTeamView/coachTeamView";
+import PlayersView from "../playersView/playersView";
 
 const body = () => {
     return (
@@ -15,6 +16,7 @@ const body = () => {
             <Route path="/mainCoachView" element={<MainCoachView />} />
             <Route path="/mainComisarienView" element={<MainComisarienView />} />
             <Route path="/coachTeamView" element={<CoachTeamView />} />
+            <Route path="/tablePlayers" element={<PlayersView />} />
 
 
 

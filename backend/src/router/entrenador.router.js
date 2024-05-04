@@ -166,6 +166,40 @@ router.get('/starplayers/:id', async (req, res) => {
     }
 });
 
+//ver todos los jugadores cambiando las ids por los nombres de las habilidades y posicionales
+
+router.get('/jugadores', async (req, res) => {
+    const jugadores = await Player.findAll();
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: jugadores
+    });
+});
+
+//ver el equipo al que pertence un jugador por su teamid
+
+router.get('/jugadores/equipo/:teamid', async (req, res) => {
+    const teamid = req.params.teamid;
+    const jugador = await Team.findOne({
+        where: {
+            teamId: teamid
+        }
+    });
+    if (jugador) {
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: jugador
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "Jugador no encontrado"
+        });
+    }
+});
 
 
 export default router;

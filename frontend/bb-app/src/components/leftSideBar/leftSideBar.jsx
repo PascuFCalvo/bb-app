@@ -1,8 +1,11 @@
 import React from "react";
 import "./leftSideBar.css";
 import Logo from "../../assets/images/petreobowl.png";
+import { useNavigate } from "react-router-dom";
 
 function LeftSideBar() {
+
+    const navigate = useNavigate();
     return (
 
 
@@ -14,7 +17,7 @@ function LeftSideBar() {
                 <ul className="leftSideBarMenuList">
                     <button className="buttonNavBar">inicio</button>
                     <button className="buttonNavBar">equipos</button>
-                    <button className="buttonNavBar">jugadores</button>
+                    <button className="buttonNavBar" onClick={() => navigate("/tablePlayers")}>jugadores</button>
                     <button className="buttonNavBar">partidos</button>
                     <button className="buttonNavBar">estadisticas</button>
                 </ul>

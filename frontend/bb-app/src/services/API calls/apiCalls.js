@@ -43,6 +43,22 @@ export const loginUser = async (data) => {
         });
 }
 
+export const getAllPlayers = async () => {
+    return fetch('http://localhost:3000/api/v1/entrenador/jugadores', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => response.json())  // Convierte la respuesta en JSON
+        .then(data => {
+            return data;  // Retorna los datos para ser usados en otro lugar
+        })
+        .catch(error => {
+            console.error('Error al obtener los jugadores:', error);
+        });
+}
+
 
 
 
