@@ -1,0 +1,19 @@
+/*dispolay grud in 2 columns*/
+
+.matchesSchedule {
+
+    width: 30vw;
+    padding: 10px;
+    display: grid;
+    background-color: bisque;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.matchInfo {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    margin-bottom: 20px;
+}
