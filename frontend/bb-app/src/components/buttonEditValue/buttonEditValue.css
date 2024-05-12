@@ -6,8 +6,10 @@
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 10px;
-    
+
+    font-size: 12px;
+    width: 80px;
+
 }
 
 .buttonEditValue:hover {

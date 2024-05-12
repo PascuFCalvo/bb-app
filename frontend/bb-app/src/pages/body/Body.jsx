@@ -7,6 +7,7 @@ import MainComisarienView from "../mainComisarienView/mainComisarienView";
 import CoachTeamView from "../coachTeamView/coachTeamView";
 import PlayersView from "../playersView/playersView";
 import TeamsView from "../teamsView/teamsView";
+import GenerateLeague from "../../components/generateLeague/generateLeague.jsx";
 
 const body = () => {
     return (
@@ -20,6 +21,7 @@ const body = () => {
             <Route path="/coachTeamView" element={<CoachTeamView />} />
             <Route path="/tablePlayers" element={<PlayersView />} />
             <Route path="/tableTeams" element={<TeamsView />} />
+            <Route path="/generateLeague" element={<GenerateLeague />} />
 
 
 

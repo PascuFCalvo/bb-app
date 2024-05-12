@@ -30,6 +30,7 @@
 
 .playersTable td {
     width: auto;
+    place-content: center;
 }
 
 .playersTable th,
@@ -101,15 +102,7 @@
     cursor: pointer;
 }
 
-.saveButton {
-    background-color: #4CAF50;
-    /* Green */
-}
 
-.cancelButton {
-    background-color: #f44336;
-    /* Red */
-}
 
 input[type="text"].editInput {
     width: 50px;
@@ -117,4 +110,15 @@ input[type="text"].editInput {
     margin: 0;
     border: 1px solid #ccc;
     box-sizing: border-box;
+}
+
+select,
+input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: black;
+    background-color: #e7e3da;
 }

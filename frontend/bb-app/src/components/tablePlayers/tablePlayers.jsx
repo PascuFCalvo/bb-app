@@ -23,6 +23,8 @@ const columns = [
     { field: 'Sancionado', headerName: 'Sancionado', width: 130, type: 'boolean' },
 ];
 
+
+
 async function fetchSubida(habilidadSubida) {
     const response = await fetch(`http://localhost:3000/api/v1/entrenador/habilidad/${habilidadSubida}`);
     const data = await response.json();

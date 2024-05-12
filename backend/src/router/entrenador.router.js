@@ -74,6 +74,31 @@ router.get('/jugadores/:teamid', async (req, res) => {
     }
 });
 
+//obventer la id de una habilidad por su nombre
+
+router.get('/habilidad/:habilidadname', async (req, res) => {
+    const habilidadname = req.params.habilidadname;
+    console.log(habilidadname);
+    const habilidad = await Habilidad.findOne({
+        where: {
+            habilidadname: habilidadname
+        }
+    });
+    if (habilidad) {
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: habilidad
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "Habilidad no encontrada"
+        });
+    }
+});
+
 //ver el posicional de un jugador por id de posicional
 
 router.get('/posicional/:posicionalid', async (req, res) => {
@@ -94,18 +119,31 @@ router.get('/posicional/:posicionalid', async (req, res) => {
     }
 });
 
+//traer todas las hablididades
+router.get('/habilidades', async (req, res) => {
+    const habilidades = await Habilidad.findAll();
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: habilidades
+    });
+});
+
 //ver el nombre de una habilidad por id de habilidad
 
 router.get('/habilidad/:habilidadid', async (req, res) => {
+    console.log("ID solicitado:", req.params.habilidadid);
     const habilidadid = req.params.habilidadid;
     const habilidad = await Habilidad.findByPk(habilidadid);
     if (habilidad) {
+        console.log("Habilidad encontrada:", habilidad);
         res.status(200).json({
             ok: true,
             status: 200,
             body: habilidad
         });
     } else {
+        console.log("No se encontró la habilidad con ID:", habilidadid);
         res.status(404).json({
             ok: false,
             status: 404,
@@ -113,7 +151,6 @@ router.get('/habilidad/:habilidadid', async (req, res) => {
         });
     }
 });
-
 
 //ver un jugador por id
 
@@ -227,7 +264,11 @@ router.put('/jugadores/:id', async (req, res) => {
     const id = req.params.id;
     const jugador = await Player.findByPk(id);
     if (jugador) {
-        const { playername, playerma, playerst, playerag, playerav, playervalue, playerpa} = req.body;
+        const { playername, playerma, playerst, playerag, playerav, playervalue, playerpa, dorsal, habilidadSubida1, habilidadSubida2, habilidadSubida3 } = req.body;
+        jugador.dorsal = dorsal;
+        jugador.habilidadSubida1 = habilidadSubida1;
+        jugador.habilidadSubida2 = habilidadSubida2;
+        jugador.habilidadSubida3 = habilidadSubida3;
         jugador.playername = playername;
         jugador.playerpa = playerpa;
         jugador.playerma = playerma;

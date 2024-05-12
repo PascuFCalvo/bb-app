@@ -3,11 +3,13 @@
     background-color: #009c34;
     color: white;
     border: solid 1px white;
-    padding: 5px;
+    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 10px;
-    
+    font-size: 12px;
+    width: 80px;
+
+
 }
 
 .buttonSaveEditValue:hover {

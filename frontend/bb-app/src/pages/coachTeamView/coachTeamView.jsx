@@ -1,72 +1,154 @@
-import React, { useEffect, useState } from 'react';
-import './coachTeamView.css';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonEditValue from '../../components/buttonEditValue/buttonEditValue.jsx';
 import ButtonSaveEditValue from '../../components/buttonSaveEditValue/buttonSaveEditValue.jsx';
+import './coachTeamView.css';
 
 function CoachTeamView() {
     const navigate = useNavigate();
     const [team, setTeam] = useState(null);
     const [players, setPlayers] = useState([]);
+    const [habilities, setHabilities] = useState([]);
+    const [habilitiesObject, setHabilitiesObject] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [hoveredPlayerId, setHoveredPlayerId] = useState(null);
-    const [editPlayerId, setEditPlayerId] = useState(null)
-    const [isEditing, setIsEditing] = useState(false)
-    const fetchTeamAndPlayers = async (userId) => {
+    const [editPlayerId, setEditPlayerId] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    let habilidadSubida1 = null;
+    let habilidadSubida2 = null;
+    let habilidadSubida3 = null;
 
 
-        try {
-            const teamUrl = `http://localhost:3000/api/v1/entrenador/equipos/${userId}`;
-            const teamData = await (await fetch(teamUrl)).json();
-            setTeam(teamData);
-
-            if (teamData.body?.teamid) {
-                const playersUrl = `http://localhost:3000/api/v1/entrenador/jugadores/${teamData.body.teamid}`;
-                const playersData = await (await fetch(playersUrl)).json();
-
-                const fetchDetails = async (player) => {
-                    const posicionalUrl = `http://localhost:3000/api/v1/entrenador/posicional/${player.posicionalid}`;
-                    const posicionalData = await (await fetch(posicionalUrl)).json();
-
-                    const habilidadUrls = [
-                        `http://localhost:3000/api/v1/entrenador/habilidad/${player.habilidadSubida1}`,
-                        `http://localhost:3000/api/v1/entrenador/habilidad/${player.habilidadSubida2}`,
-                        `http://localhost:3000/api/v1/entrenador/habilidad/${player.habilidadSubida3}`,
-                    ];
-                    const habilidades = await Promise.all(habilidadUrls.map(url =>
-                        fetch(url).then(res => res.ok ? res.json() : null)
-                    ));
-
-                    return {
-                        ...player,
-                        posicional: posicionalData,
-                        habilidadSubida1: habilidades[0]?.body?.habilidadname || ' - ',
-                        habilidadSubida2: habilidades[1]?.body?.habilidadname || ' - ',
-                        habilidadSubida3: habilidades[2]?.body?.habilidadname || ' - ',
-                    };
-                };
-
-                const playersWithDetails = await Promise.all(playersData.body.map(fetchDetails));
-                setPlayers(playersWithDetails);
-            }
-            setIsLoading(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setIsLoading(false);
-        }
-    };
 
     useEffect(() => {
         const userStorageInfo = localStorage.getItem("user");
         if (!userStorageInfo) {
-            console.log('No user info available');
             setIsLoading(false);
             return;
         }
-
         const user = JSON.parse(userStorageInfo);
         fetchTeamAndPlayers(user.userid);
+        fetchHabilities();
+        console.log(habilitiesObject)
     }, []);
+
+    const fetchHabilities = async () => {
+        const habilidadesUrl = 'http://localhost:3000/api/v1/entrenador/habilidades';
+        try {
+            const response = await fetch(habilidadesUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const habilidadesData = await response.json();
+
+            if (habilidadesData.body && Array.isArray(habilidadesData.body)) {
+                const habilidadesObject = {};
+                habilidadesData.body.forEach(habilidad => {
+                    habilidadesObject[habilidad.habilidadid] = habilidad.habilidadname;
+                });
+
+                setHabilitiesObject(habilidadesObject);
+            }
+        } catch (error) {
+            console.error('Failed to fetch habilidades:', error);
+        }
+    };
+
+
+    async function fetchTeamAndPlayers(userId) {
+        try {
+            const teamUrl = `http://localhost:3000/api/v1/entrenador/equipos/${userId}`;
+            const teamResponse = await fetch(teamUrl);
+            const teamData = await teamResponse.json();
+            setTeam(teamData);
+
+            const playersUrl = `http://localhost:3000/api/v1/entrenador/jugadores/${teamData.body?.teamid}`;
+            const playersResponse = await fetch(playersUrl);
+            const playersData = await playersResponse.json();
+            const playersDetails = await Promise.all(playersData.body.map(fetchPlayerDetails));
+            setPlayers(playersDetails);
+            setIsLoading(false);
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setIsLoading(false);
+        }
+    }
+
+
+    async function fetchPlayerDetails(player) {
+        const posicionalUrl = `http://localhost:3000/api/v1/entrenador/posicional/${player.posicionalid}`;
+        const posicionalResponse = await fetch(posicionalUrl);
+        const posicionalData = await posicionalResponse.json();
+
+        habilidadSubida1 = player.habilidadSubida1;
+        habilidadSubida2 = player.habilidadSubida2;
+        habilidadSubida3 = player.habilidadSubida3;
+
+
+        return {
+            ...player,
+            posicional: posicionalData,
+            habilidadSubida1,
+            habilidadSubida2,
+            habilidadSubida3,
+        };
+    }
+
+
+    const handleEditClick = playerId => {
+        setIsEditing(true);
+        setEditPlayerId(playerId);
+    };
+
+    const handleSaveEdit = async (playerId) => {
+
+
+        const player = players.find(player => player.playerid === playerId);
+
+        const updatePlayerUrl = `http://localhost:3000/api/v1/entrenador/jugadores/${playerId}`;
+        const updatePlayerData = {
+            dorsal: player.dorsal === ' - ' ? null : player.dorsal,
+            playername: player.playername === ' - ' ? null : player.playername,
+
+            habilidadSubida1: player.habilidadSubida1 === ' - ' ? null : player.habilidadSubida1,
+            habilidadSubida2: player.habilidadSubida2 === ' - ' ? null : player.habilidadSubida2,
+            habilidadSubida3: player.habilidadSubida3 === ' - ' ? null : player.habilidadSubida3,
+            playerma: player.playerma === ' - ' ? null : player.playerma,
+            playerst: player.playerst === ' - ' ? null : player.playerst,
+            playerag: player.playerag === ' - ' ? null : player.playerag,
+            playerpa: player.playerpa === ' - ' ? null : player.playerpa,
+            playerav: player.playerav === ' - ' ? null : player.playerav,
+            playerar: player.playerar === ' - ' ? null : player.playerar,
+            playervalue: player.playervalue === ' - ' ? null : player.playervalue,
+        };
+
+        try {
+            const response = await fetch(updatePlayerUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatePlayerData),
+            });
+
+            if (response.ok) {
+                setEditPlayerId(null);
+                setIsEditing(false);
+            } else {
+                console.error('Failed to update player:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Failed to update player:', error);
+        }
+
+    };
+
+    const handleInputChange = (playerId, field, value) => {
+        setPlayers(prevPlayers => prevPlayers.map(player =>
+            player.playerid === playerId ? { ...player, [field]: value } : player
+        ));
+    };
 
     if (isLoading) {
         return <div>Cargando...</div>;
@@ -75,49 +157,6 @@ function CoachTeamView() {
     if (!team || !players.length) {
         return <div>No hay equipo o datos de jugadores disponibles.</div>;
     }
-
-    const handleEditClick = (playerId) => {
-        setIsEditing(true);
-        setEditPlayerId(playerId);
-    };
-    const handleCancelEdit = () => {
-        setEditPlayerId(null);
-    }
-    const handleSaveEdit = async (playerId) => {
-        const playerToSave = players.find(p => p.playerid === playerId);
-        if (!playerToSave) return;
-
-        try {
-            const url = `http://localhost:3000/api/v1/entrenador/jugadores/${playerId}`;
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(playerToSave)
-            });
-
-            if (response.ok) {
-                const updatedPlayer = await response.json();
-                setPlayers(players.map(player => player.playerid === playerId ? updatedPlayer : player));
-                setEditPlayerId(null);
-            } else {
-                console.error('Error updating player:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error updating player:', error);
-        }
-    };
-    const handleInputChange = (playerId, field, value) => {
-        setPlayers(prevPlayers => prevPlayers.map(player => player.playerid === playerId ? {
-            ...player,
-            [field]: value,
-        } : player));
-    }
-
-
-
-
 
     return (
         <>
@@ -152,7 +191,7 @@ function CoachTeamView() {
                             </thead>
                             <tbody>
                                 {players.map((player, index) => (
-                                    <tr key={player.playerid}
+                                    <tr key={index}
                                         onMouseEnter={() => setHoveredPlayerId(player.playerid)}
                                         onMouseLeave={() => setHoveredPlayerId(null)}>
                                         <td>
@@ -185,19 +224,20 @@ function CoachTeamView() {
                                                 <input
                                                     type="text"
                                                     value={player.playerma}
-                                                    onChange={e => handleInputChange(player.playerid, 'posicionalma', e.target.value)}
+                                                    onChange={e => handleInputChange(player.playerid, 'playerma', e.target.value)}
                                                     className="editInput"
                                                 />
                                                 :
                                                 player.playerma
                                             }
                                         </td>
+
                                         <td>
                                             {editPlayerId === player.playerid ?
                                                 <input
                                                     type="text"
                                                     value={player.playerst}
-                                                    onChange={e => handleInputChange(player.playerid, 'posicionalst', e.target.value)}
+                                                    onChange={e => handleInputChange(player.playerid, 'playerst', e.target.value)}
                                                     className="editInput"
                                                 />
                                                 :
@@ -209,7 +249,7 @@ function CoachTeamView() {
                                                 <input
                                                     type="text"
                                                     value={player.playerag}
-                                                    onChange={e => handleInputChange(player.playerid, 'posicionalag', e.target.value)}
+                                                    onChange={e => handleInputChange(player.playerid, 'playerag', e.target.value)}
                                                     className="editInput"
                                                 />
                                                 :
@@ -221,7 +261,7 @@ function CoachTeamView() {
                                                 <input
                                                     type="text"
                                                     value={player.playerpa}
-                                                    onChange={e => handleInputChange(player.playerid, 'posicionalpa', e.target.value)}
+                                                    onChange={e => handleInputChange(player.playerid, 'playerpa', e.target.value)}
                                                     className="editInput"
                                                 />
                                                 :
@@ -233,7 +273,7 @@ function CoachTeamView() {
                                                 <input
                                                     type="text"
                                                     value={player.playerav}
-                                                    onChange={e => handleInputChange(player.playerid, 'posicionalar', e.target.value)}
+                                                    onChange={e => handleInputChange(player.playerid, 'playerar', e.target.value)}
                                                     className="editInput"
                                                 />
                                                 :
@@ -245,7 +285,7 @@ function CoachTeamView() {
                                                 <input
                                                     type="text"
                                                     value={player.playervalue}
-                                                    onChange={e => handleInputChange(player.playerid, 'posicionalvalue', e.target.value)}
+                                                    onChange={e => handleInputChange(player.playerid, 'playervalue', e.target.value)}
                                                     className="editInput"
                                                 />
                                                 :
@@ -253,17 +293,71 @@ function CoachTeamView() {
                                             }
                                         </td>
                                         <td>{player.posicional?.body?.posicionalskills}</td>
-                                        <td>{player.habilidadSubida1}</td>
-                                        <td>{player.habilidadSubida2}</td>
-                                        <td>{player.habilidadSubida3}</td>
-                                        {
-                                            //mostar el boton editar, pero unicamente si no se esta editando, cuando se este editando mostrar el boton de guardar
-                                            editPlayerId === player.playerid ?
+                                        <td>
+                                            {editPlayerId === player.playerid ? (
+                                                <select
+                                                    value={player.habilidadSubida1}
+                                                    onChange={e => handleInputChange(player.playerid, 'habilidadSubida1', e.target.value)}
+                                                    className="editInput"
+                                                >
+                                                    <option value="">- Selecciona -</option>
+                                                    {Object.entries(habilitiesObject).map(([habilidadId, habilidadName]) => (
+                                                        <option key={habilidadId} value={habilidadId}>
+                                                            {habilidadName}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            ) : (
+                                                habilitiesObject[player.habilidadSubida1] || ' - '
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {editPlayerId === player.playerid ? (
+                                                <select
+                                                    value={player.habilidadSubida2}
+                                                    onChange={e => handleInputChange(player.playerid, 'habilidadSubida2', e.target.value)}
+                                                    className="editInput"
+                                                >
+                                                    <option value="">- Selecciona -</option>
+                                                    {Object.entries(habilitiesObject).map(([habilidadId, habilidadName]) => (
+                                                        <option key={habilidadId} value={habilidadId}>
+                                                            {habilidadName}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            ) : (
+                                                habilitiesObject[player.habilidadSubida2] || ' - '
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            {editPlayerId === player.playerid ? (
+                                                <select
+                                                    value={player.habilidadSubida3}
+                                                    onChange={e => handleInputChange(player.playerid, 'habilidadSubida3', e.target.value)}
+                                                    className="editInput"
+                                                >
+                                                    <option value="">- Selecciona -</option>
+                                                    {Object.entries(habilitiesObject).map(([habilidadId, habilidadName]) => (
+                                                        <option key={habilidadId} value={habilidadId}>
+                                                            {habilidadName}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            ) : (
+                                                habilitiesObject[player.habilidadSubida3] || ' - '
+                                            )}
+                                        </td>
+
+
+                                        <td>
+                                            {editPlayerId === player.playerid ?
                                                 <ButtonSaveEditValue onClick={() => handleSaveEdit(player.playerid)} />
                                                 :
                                                 <ButtonEditValue onClick={() => handleEditClick(player.playerid)} />
-                                        }
-
+                                            }
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

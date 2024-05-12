@@ -4,7 +4,7 @@ import './buttonSaveEditValue.css';
 const ButtonSaveEditValue = ({ onClick }) => {
     return (
         <div>
-            <button className="buttonEditValue" onClick={onClick}>guardar</button>
+            <button className="buttonSaveEditValue" onClick={onClick}>guardar</button>
         </div>
     );
 };
