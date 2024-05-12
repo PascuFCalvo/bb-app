@@ -1,0 +1,16 @@
+.buttonSaveEditValue {
+    font-family: BloodBowl;
+    background-color: #009c34;
+    color: white;
+    border: solid 1px white;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    
+}
+
+.buttonSaveEditValue:hover {
+    background-color: #00520e;
+    transform: scale(1.05);
+}

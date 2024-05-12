@@ -58,6 +58,47 @@ Player.init(
             allowNull: false
         },
 
+        playervalue: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        playerma: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        playerpa: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        playerpa: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        playerst: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        playerag: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        playerav: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        updated: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        }
+
+
+
 
 
     },

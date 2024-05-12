@@ -11,6 +11,7 @@ import TeamsView from "../teamsView/teamsView";
 const body = () => {
     return (
         <Routes>
+            <Route path="/*" element={<Menu/>} />
             <Route path="/" element={<Menu />} />
             <Route path="/register" element={<FormRegister />} />
             <Route path="/login" element={<LoginForm />} />

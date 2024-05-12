@@ -1,0 +1,16 @@
+.buttonEditValue {
+    font-family: BloodBowl;
+    background-color: #B71418;
+    color: white;
+    border: solid 1px white;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+    
+}
+
+.buttonEditValue:hover {
+    background-color: #830f11;
+    transform: scale(1.05);
+}

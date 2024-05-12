@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import './coachTeamView.css';
 import { useNavigate } from 'react-router-dom';
+import ButtonEditValue from '../../components/buttonEditValue/buttonEditValue.jsx';
+import ButtonSaveEditValue from '../../components/buttonSaveEditValue/buttonSaveEditValue.jsx';
 
 function CoachTeamView() {
     const navigate = useNavigate();
     const [team, setTeam] = useState(null);
     const [players, setPlayers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        const userStorageInfo = localStorage.getItem("user");
-        if (!userStorageInfo) {
-            console.log('No user info available');
-            setIsLoading(false);
-            return;
-        }
-
-        const user = JSON.parse(userStorageInfo);
-        fetchTeamAndPlayers(user.userid);
-    }, []);
-
+    const [hoveredPlayerId, setHoveredPlayerId] = useState(null);
+    const [editPlayerId, setEditPlayerId] = useState(null)
+    const [isEditing, setIsEditing] = useState(false)
     const fetchTeamAndPlayers = async (userId) => {
+
+
         try {
             const teamUrl = `http://localhost:3000/api/v1/entrenador/equipos/${userId}`;
             const teamData = await (await fetch(teamUrl)).json();
@@ -62,6 +56,18 @@ function CoachTeamView() {
         }
     };
 
+    useEffect(() => {
+        const userStorageInfo = localStorage.getItem("user");
+        if (!userStorageInfo) {
+            console.log('No user info available');
+            setIsLoading(false);
+            return;
+        }
+
+        const user = JSON.parse(userStorageInfo);
+        fetchTeamAndPlayers(user.userid);
+    }, []);
+
     if (isLoading) {
         return <div>Cargando...</div>;
     }
@@ -69,6 +75,48 @@ function CoachTeamView() {
     if (!team || !players.length) {
         return <div>No hay equipo o datos de jugadores disponibles.</div>;
     }
+
+    const handleEditClick = (playerId) => {
+        setIsEditing(true);
+        setEditPlayerId(playerId);
+    };
+    const handleCancelEdit = () => {
+        setEditPlayerId(null);
+    }
+    const handleSaveEdit = async (playerId) => {
+        const playerToSave = players.find(p => p.playerid === playerId);
+        if (!playerToSave) return;
+
+        try {
+            const url = `http://localhost:3000/api/v1/entrenador/jugadores/${playerId}`;
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(playerToSave)
+            });
+
+            if (response.ok) {
+                const updatedPlayer = await response.json();
+                setPlayers(players.map(player => player.playerid === playerId ? updatedPlayer : player));
+                setEditPlayerId(null);
+            } else {
+                console.error('Error updating player:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error updating player:', error);
+        }
+    };
+    const handleInputChange = (playerId, field, value) => {
+        setPlayers(prevPlayers => prevPlayers.map(player => player.playerid === playerId ? {
+            ...player,
+            [field]: value,
+        } : player));
+    }
+
+
+
 
 
     return (
@@ -99,24 +147,123 @@ function CoachTeamView() {
                                     <th>1a subida</th>
                                     <th>2a subida</th>
                                     <th>3a subida</th>
+                                    <th>Editar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {players.map((player, index) => (
-                                    <tr key={index}>
-                                        <td>{player.dorsal}</td>
-                                        <td>{player.playername}</td>
+                                    <tr key={player.playerid}
+                                        onMouseEnter={() => setHoveredPlayerId(player.playerid)}
+                                        onMouseLeave={() => setHoveredPlayerId(null)}>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.dorsal}
+                                                    onChange={e => handleInputChange(player.playerid, 'dorsal', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.dorsal
+                                            }
+                                        </td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playername}
+                                                    onChange={e => handleInputChange(player.playerid, 'playername', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playername
+                                            }
+                                        </td>
                                         <td>{player.posicional?.body?.posicionalname}</td>
-                                        <td>{player.posicional?.body?.posicionalma}</td>
-                                        <td>{player.posicional?.body?.posicionalst}</td>
-                                        <td>{player.posicional?.body?.posicionalag}</td>
-                                        <td>{player.posicional?.body?.posicionalpa}</td>
-                                        <td>{player.posicional?.body?.posicionalav}</td>
-                                        <td>{player.posicional?.body?.posicionalcost}</td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playerma}
+                                                    onChange={e => handleInputChange(player.playerid, 'posicionalma', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playerma
+                                            }
+                                        </td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playerst}
+                                                    onChange={e => handleInputChange(player.playerid, 'posicionalst', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playerst
+                                            }
+                                        </td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playerag}
+                                                    onChange={e => handleInputChange(player.playerid, 'posicionalag', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playerag
+                                            }
+                                        </td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playerpa}
+                                                    onChange={e => handleInputChange(player.playerid, 'posicionalpa', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playerpa
+                                            }
+                                        </td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playerav}
+                                                    onChange={e => handleInputChange(player.playerid, 'posicionalar', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playerav
+                                            }
+                                        </td>
+                                        <td>
+                                            {editPlayerId === player.playerid ?
+                                                <input
+                                                    type="text"
+                                                    value={player.playervalue}
+                                                    onChange={e => handleInputChange(player.playerid, 'posicionalvalue', e.target.value)}
+                                                    className="editInput"
+                                                />
+                                                :
+                                                player.playervalue
+                                            }
+                                        </td>
                                         <td>{player.posicional?.body?.posicionalskills}</td>
                                         <td>{player.habilidadSubida1}</td>
                                         <td>{player.habilidadSubida2}</td>
                                         <td>{player.habilidadSubida3}</td>
+                                        {
+                                            //mostar el boton editar, pero unicamente si no se esta editando, cuando se este editando mostrar el boton de guardar
+                                            editPlayerId === player.playerid ?
+                                                <ButtonSaveEditValue onClick={() => handleSaveEdit(player.playerid)} />
+                                                :
+                                                <ButtonEditValue onClick={() => handleEditClick(player.playerid)} />
+                                        }
+
                                     </tr>
                                 ))}
                             </tbody>

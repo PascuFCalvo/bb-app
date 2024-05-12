@@ -221,6 +221,37 @@ router.get('/entrenador/equipo/:userid', async (req, res) => {
     }
 });
 
+//editar un jugador y guardarlo en la base de datos
+
+router.put('/jugadores/:id', async (req, res) => {
+    const id = req.params.id;
+    const jugador = await Player.findByPk(id);
+    if (jugador) {
+        const { playername, playerma, playerst, playerag, playerav, playervalue, playerpa} = req.body;
+        jugador.playername = playername;
+        jugador.playerpa = playerpa;
+        jugador.playerma = playerma;
+        jugador.playerst = playerst;
+        jugador.playerag = playerag;
+        jugador.playerav = playerav;
+        jugador.playervalue = playervalue;
+        jugador.updated = true
+        await jugador.save();
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            body: jugador
+        });
+    } else {
+        res.status(404).json({
+            ok: false,
+            status: 404,
+            message: "Jugador no encontrado"
+        });
+    }
+});
+
+
 
 export default router;
 
